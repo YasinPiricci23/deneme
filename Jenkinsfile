@@ -8,13 +8,9 @@ node {
       sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=argo-wf -Dsonar.sources=. -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.token=sqp_e43b5aafa498c3ec6d0e5105f35659147b61b0f3 -Dsonar.sourceEncoding=UTF-8"
     }
   }
-  stage("Quality Gate") {
+  stage("Quality gate") {
             steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
                 waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+    }
+  }
 }
