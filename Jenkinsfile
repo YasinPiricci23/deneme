@@ -1,29 +1,13 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Clone sources') {
-            steps {
-                git 'https://github.com/YasinPiricci23/deneme.git'
-            }
-        }
-
-        stage('SonarQube analysis') {
-            
-            def scannerHome = tool 'sonar';
-            withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner -X" 
-                println("ne");
-                //"-X" +
-                //"-Dsonar.projectKey=argo-wf" +
-                //"-Dsonar.sourceEncoding=UTF-8"
-                }
-            
-        }
-        stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
+node {
+  stage('git') {
+    git 'https://github.com/YasinPiricci23/deneme.git'
+  }
+  stage('SonarQube analysis') {
+    def scannerHome = tool 'sonar';
+    withSonarQubeEnv() { // If you have configured more than one global server connection, you can specify its name
+      sh "${scannerHome}/bin/sonar-scanner -X "
+      "-Dsonar.projectKey=argo-wf" +
+      "-Dsonar.sourceEncoding=UTF-8" 
     }
+  }
 }
