@@ -13,6 +13,7 @@ pipeline {
             def scannerHome = tool 'sonar';
             withSonarQubeEnv() {
                 sh "${scannerHome}/bin/sonar-scanner -X" 
+                println("ne");
                 //"-X" +
                 //"-Dsonar.projectKey=argo-wf" +
                 //"-Dsonar.sourceEncoding=UTF-8"
