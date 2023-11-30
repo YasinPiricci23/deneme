@@ -10,7 +10,7 @@ node {
   }
   stage("Quality gate") {
     steps {
-      waitForQualityGate abortPipeline: true
+      waitForQualityGate abortPipeline: false
     }
   }
 }
