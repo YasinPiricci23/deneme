@@ -8,9 +8,9 @@ node {
       sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=test -Dsonar.sources=. -Dsonar.host.url=http://host.docker.internal:9000  -Dsonar.token=sqp_67e445bc1363f015f6502340d4f3a48f56feab70 -Dsonar.sourceEncoding=UTF-8"
     }
   }
- /* stage("Quality gate") {
-    timeout(time: 1, unit: 'MINUTES') {
+  stage("Quality gate") {
+    timeout(time: 15, unit: 'MINUTES') {
        waitForQualityGate abortPipeline: true
    } 
-  }*/
+  }
 }
