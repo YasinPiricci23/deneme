@@ -9,8 +9,12 @@ node {
     }
   }
   stage("Quality gate") {
-    timeout(time: 15, unit: 'MINUTES') {
-       waitForQualityGate abortPipeline: true
-   } 
+  steps{ 
+    def qg = waitForQualityGate()
+      if (qg.status != 'OK') {
+      error "Quality Gate başarısız: ${qg.status}"
+  } 
   }
+}
+}
 }
