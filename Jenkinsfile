@@ -9,11 +9,11 @@ node {
     }
   }
   stage("Quality gate") {
-  steps{ 
+   
     def qg = waitForQualityGate()
       if (qg.status != 'OK') {
       error "Quality Gate başarısız: ${qg.status}"
-  } 
+   
   }
 }
 }
