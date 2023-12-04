@@ -10,7 +10,7 @@ node {
   stage('SonarQube Analysis') {
     def scannerHome = tool 'sonar';
     withSonarQubeEnv() {
-    sh "${scannerHome}/bin/sonar-scanner -X  -Dsonar.language=php -Dsonar.qualitygate.wait=true  -Dsonar.sources=. -Dsonar.host.url=${SONAR_URL}  -Dsonar.projectKey=deneme-1  -Dsonar.login=${SONAR_TOKEN}   -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=**/*.js,**/*.css,**/*.scss,**/inlineall.html" 
+    sh "${scannerHome}/bin/sonar-scanner -X  -Dsonar.language=php -Dsonar.qualitygate.wait=true  -Dsonar.sources=. -Dsonar.host.url="${SONAR_URL}"  -Dsonar.projectKey=deneme-1  -Dsonar.login="${SONAR_TOKEN}"   -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=**/*.js,**/*.css,**/*.scss,**/inlineall.html" 
 }
 }
 }  
