@@ -4,7 +4,7 @@ metadata:
   name: apollon-sensor
 spec: 
   template:
-    serviceAccountName: argooperator
+    serviceAccountName: argo-workflow
   dependencies:
     - name: github-webhook-dep
       eventSourceName: github
@@ -22,7 +22,7 @@ spec:
                 generateName: trigger--
                 namespace: argo-events
               spec:
-                serviceAccountName: argooperator
+                serviceAccountName: argo-workflow
                 arguments:
                   parameters:
                   - name: repo
