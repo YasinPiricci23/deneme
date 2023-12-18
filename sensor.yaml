@@ -44,13 +44,13 @@ spec:
                                 value: "{{workflow.parameters.repo}}"
                               - name: branch
                                 value: "{{workflow.parameters.branch}}"
-                        - name: sonar-scanner
-                          template: sonar-scanner
-                          arguments:
-                            parameters:
-                              - name: sonar-env
-                                value: "{{workflow.parameters.sonar-scanner}}"
-                          depends: "clone"
+                                  #    - name: sonar-scanner
+                                  #template: sonar-scanner
+                                  #arguments:
+                                  #parameters:
+                                  #- name: sonar-env
+                                  #value: "{{workflow.parameters.sonar-scanner}}"
+                                  #depends: "clone"
                   - name: clone
                     inputs:
                       parameters:
@@ -60,16 +60,16 @@ spec:
                       image: alpine:latest
                       command: [sh, -c]
                       args: ["apk update"]
-                  - name: sonar-scanner
-                    inputs:
-                      parameters:
-                        - name: repo
-                        - name: branch
-                        - name: sonar-scanner
-                    container:
-                      image: sonarsource/sonar-scanner-cli:latest
-                      command: [sh, -c]
-                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
+                        # - name: sonar-scanner
+                        #inputs:
+                        #parameters:
+                        #- name: repo
+                        #- name: branch
+                        #- name: sonar-scanner
+                        #container:
+                        #image: sonarsource/sonar-scanner-cli:latest
+                        #command: [sh, -c]
+                        #args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
 
                         #          parameters:
                         # - src:
