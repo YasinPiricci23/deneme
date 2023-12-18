@@ -5,6 +5,10 @@ metadata:
 spec: 
   template:
     serviceAccountName: operate-workflow-sa
+  dependencies:
+    - name: github-webhook-dep
+      eventSourceName: github
+      eventName: example
   triggers:
     - template:
         name: argo-workflow-trigger
