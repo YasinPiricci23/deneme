@@ -56,6 +56,10 @@ spec:
                       parameters:
                         - name: repo
                         - name: branch
+                    container:
+                      image: alpine:latest
+                      commands: [sh, -c]
+                      args: ["apk update"]
                   - name: sonar-scanner
                     inputs:
                       parameters:
