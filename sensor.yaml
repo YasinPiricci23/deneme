@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: apollon-sensor
+spec: 
+  template:
+    serviceAccountName: operate-workflow-sa
+  triggers:
+    - template:
+        name: argo-workflow-trigger
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: workflow
+              metadata:
+                generateName: trigger--
+              spec:
+                arguments:
+                  parameters:
+                  - name: repo
+                    value: "https://github.com/YasinPiricci23/deneme.git"
+                  - name: branch
+                    value: "master"
+                  - name: sonar-scanner
+                    value: "-X  -Dsonar.language=php -Dsonar.qualitygate.wait=true  -Dsonar.sources=. -Dsonar.host.url=http://sonarqube-sonarqube.sonarqube:9000  -Dsonar.projectKey=test  -Dsonar.login=sqp_971214ca742b20104d84db26aeac86d60387fd24   -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=**/*.js,**/*.css,**/*.scss,**/inlineall.html"
+                entrypoint: main
+                templates:
+                  - name: main
+                    dag:
+                      tasks:
+                        - name: clone
+                          template: clone
+                          arguments:
+                            parameters:
+                              - name: repo
+                                value: "{{workflow.parameters.repo}}"
+                              - name: branch
+                                value: "{{workflow.parameters.branch}}"
+                        - name: sonar-scanner
+                          template: sonar-scanner
+                          arguments:
+                            parameters:
+                              - name: sonar-env
+                                value: "{{workflow.parameters.sonar-scanner}}"
+                          depends: "clone"
+                  - name: sonar-analyze
+                    inputs:
+                      parameters:
+                        - name: repo
+                        - name: branch
+                        - name: sonar-scanner
+                    container:
+                      image: sonarsource/sonar-scanner-cli:latest
+                      command: [sh, -c]
+                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
+
