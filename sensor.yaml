@@ -65,7 +65,7 @@ spec:
                       parameters:
                         - name: repo
                         - name: branch
-                        - name: sonar-scanner
+                        - name: sonar-env
                     container:
                       image: sonarsource/sonar-scanner-cli:latest
                       command: [sh, -c]
