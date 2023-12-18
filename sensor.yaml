@@ -50,7 +50,6 @@ spec:
                             parameters:
                               - name: sonar-env
                                 value: "{{workflow.parameters.sonar-scanner}}"
-                          depends: "clone"
                   - name: clone
                     inputs:
                       parameters:
