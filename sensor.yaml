@@ -56,3 +56,20 @@ spec:
                       command: [sh, -c]
                       args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
 
+          parameters:
+            - src:
+                dependencyName: github-webhook-dep
+                dataKey: body.repository.name
+              dest: spec.arguments.parameters.0.value
+            - src:
+                dependencyName: github-webhook-dep
+                dataKey: body.push.changes.1.name
+              dest: spec.arguments.parameters.1.value
+            - src: 
+                dependencyName: github-webhook-dep
+                dataKey: body.push.changes.2.name
+              dest: spec.arguments.parameters.2.value
+
+
+
+
