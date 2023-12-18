@@ -20,6 +20,7 @@ spec:
               kind: Workflow
               metadata:
                 generateName: trigger--
+                namespace: argo-events
               spec:
                 serviceAccountName: operate-workflow-sa
                 arguments:
