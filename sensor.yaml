@@ -48,6 +48,10 @@ spec:
                           template: sonar-scanner
                           arguments:
                             parameters:
+                              - name: repo
+                                value: "{{workflow.parameters.repo}}"
+                              - name: branch
+                                value: "{{workflow.parameters.branch}}"
                               - name: sonar-env
                                 value: "{{workflow.parameters.sonar-scanner}}"
                           depends: "clone"
