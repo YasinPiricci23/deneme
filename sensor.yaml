@@ -62,10 +62,10 @@ spec:
                       args: ["apk update"]
                   - name: sonar-scanner
                     inputs:
-                    parameters:
-                      - name: repo
-                      - name: branch
-                      - name: sonar-scanner
+                      parameters:
+                        - name: repo
+                        - name: branch
+                        - name: sonar-scanner
                     container:
                       image: sonarsource/sonar-scanner-cli:latest
                       command: [sh, -c]
