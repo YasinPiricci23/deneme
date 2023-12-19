@@ -26,7 +26,7 @@ spec:
                 arguments:
                   parameters:
                   - name: repo
-                    value: "https://github.com/YasinPiricci23/deneme.git"
+                    value: my-repo
                   - name: branch
                     value: "master"
                   - name: sonar-scanner
@@ -73,12 +73,12 @@ spec:
                     container:
                       image: sonarsource/sonar-scanner-cli:latest
                       command: [sh, -c]
-                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
+                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}}.git && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
 
           parameters:
             - src:
                 dependencyName: github-webhook-dep
-                dataKey: body.repository.name
+                dataKey: body.repository.html_url
                 dest: spec.arguments.parameters.0.value
                         #- src:
                         #dependencyName: github-webhook-dep
