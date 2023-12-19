@@ -92,19 +92,19 @@ spec:
             - src:
                 dependencyName: github-webhook-dep
                 dataKey: body.repository.1.clone-url
-              dest: spec.arguments.parameters.0.value
+                dest: spec.arguments.parameters.0.value
             - src:
                 dependencyName: github-webhook-dep
                 dataKey: body.push.changes.0.new.name
-              dest: spec.arguments.parameters.1.value
+                dest: spec.arguments.parameters.1.value
             - src: 
                 dependencyName: github-webhook-dep
                 dataTemplate: '{{ index (.Input.body.push.changes) 0 "new" "target" "hash" | trunc 7 }}'
-              dest: spec.arguments.parameters.2.value
+                dest: spec.arguments.parameters.2.value
             - src:
                 dependencyName: github-webhook-dep
                 dataKey: body.repository.name
-              dest: spec.arguments.parameters.3.value
+                dest: spec.arguments.parameters.3.value
               
 
 
