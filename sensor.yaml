@@ -29,6 +29,10 @@ spec:
                     value: my-repo-url
                   - name: branch
                     value: "master"
+                  - name: repo-short-commit
+                    value: foo
+                  - name: repo-name
+                    value: repo-name
                   - name: sonar-scanner
                     value: "-X  -Dsonar.language=php -Dsonar.qualitygate.wait=true  -Dsonar.sources=. -Dsonar.host.url=http://sonarqube-sonarqube.sonarqube:9000  -Dsonar.projectKey=test  -Dsonar.login=sqp_971214ca742b20104d84db26aeac86d60387fd24   -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=**/*.js,**/*.css,**/*.scss,**/inlineall.html"
                 entrypoint: main
@@ -44,8 +48,8 @@ spec:
                                 value: "{{workflow.parameters.repo-url}}"
                               - name: branch
                                 value: "{{workflow.parameters.branch}}"
-                              - name: repo-short-commit
-                                value: foo
+                              - name: short-commit
+                                value: "{{workflow.parameters.repo-short-commit}}"
                         - name: sonar-scanner
                           template: sonar-scanner
                           arguments:
@@ -54,6 +58,10 @@ spec:
                                 value: "{{workflow.parameters.repo}}"
                               - name: branch
                                 value: "{{workflow.parameters.branch}}"
+                              - name: short-commit
+                                value: "{{workflow.parameters.repo-short-commit}}"
+                              - name: project-name
+                                value: "{{workflow.parameters.repo-name}}"
                               - name: sonar-env
                                 value: "{{workflow.parameters.sonar-scanner}}"
                           depends: "clone"
@@ -62,6 +70,7 @@ spec:
                       parameters:
                         - name: repo
                         - name: branch
+                        - name: short-commit
                     container:
                       image: alpine:latest
                       command: [sh, -c]
@@ -70,12 +79,14 @@ spec:
                     inputs:
                       parameters:
                         - name: repo
+                        - name: project-name
                         - name: branch
+                        - name: short-commit
                         - name: sonar-env
                     container:
                       image: sonarsource/sonar-scanner-cli:latest
                       command: [sh, -c]
-                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}}.git && cd deneme && GIT_COMMIT=$(git log -n 1 --pretty=format:'%h') && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.branch}}-$GIT_COMMIT "]     
+                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}}.git && cd deneme && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.project-name}}{{inputs.parameters.branch}}-{{inputs.parameters.short-commit}} "]
 
           parameters:
             - src:
@@ -90,6 +101,11 @@ spec:
                 dependencyName: github-webhook-dep
                 dataTemplate: '{{ index (.Input.body.push.changes) 0 "new" "target" "hash" | trunc 7 }}'
                 dest: spec.arguments.parameters.2.value
+            - src:
+                dependencyName: github-webhook-dep
+                dataKey: body.repository.name
+                dest: spec.arguments.parameters.3.value
+              
 
 
 
