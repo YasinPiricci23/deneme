@@ -27,8 +27,6 @@ spec:
                   parameters:
                   - name: repo-url
                     value: my-repo-url
-                  - name: repository
-                    value: repo-name
                   - name: branch
                     value: "master"
                   - name: sonar-scanner
@@ -43,9 +41,11 @@ spec:
                           arguments:
                             parameters:
                               - name: repo
-                                value: "{{workflow.parameters.repo-url}}/{{workflow.parameters.repository}}.git"
+                                value: "{{workflow.parameters.repo-url}}"
                               - name: branch
                                 value: "{{workflow.parameters.branch}}"
+                              - name: repo-short-commit
+                                value: foo
                         - name: sonar-scanner
                           template: sonar-scanner
                           arguments:
@@ -80,15 +80,15 @@ spec:
           parameters:
             - src:
                 dependencyName: github-webhook-dep
-                dataKey: body.repository.html_url
+                dataKey: body.repository.1.clone-url
                 dest: spec.arguments.parameters.0.value
             - src:
                 dependencyName: github-webhook-dep
-                dataKey: body.repository.name
-                dest: spec.arguments.parameters.0.value
+                dataKey: body.push.changes.0.new.name
+                dest: spec.arguments.parameters.1.value
             - src: 
                 dependencyName: github-webhook-dep
-                dataKey: body.push.changes.2.name
+                dataTemplate: '{{ index (.Input.body.push.changes) 0 "new" "target" "hash" | trunc 7 }}'
                 dest: spec.arguments.parameters.2.value
 
 
