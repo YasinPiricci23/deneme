@@ -25,8 +25,10 @@ spec:
                 serviceAccountName: argooperator
                 arguments:
                   parameters:
-                  - name: repo
-                    value: my-repo
+                  - name: repo-url
+                    value: my-repo-url
+                  - name: repository
+                    value: repo-name
                   - name: branch
                     value: "master"
                   - name: sonar-scanner
@@ -41,7 +43,7 @@ spec:
                           arguments:
                             parameters:
                               - name: repo
-                                value: "{{workflow.parameters.repo}}"
+                                value: "{{workflow.parameters.repo-url}}/{{workflow.parameters.repository}}.git"
                               - name: branch
                                 value: "{{workflow.parameters.branch}}"
                         - name: sonar-scanner
@@ -80,14 +82,14 @@ spec:
                 dependencyName: github-webhook-dep
                 dataKey: body.repository.html_url
                 dest: spec.arguments.parameters.0.value
-                        #- src:
-                        #dependencyName: github-webhook-dep
-                        #dataKey: body.push.changes.1.name
-                        #dest: spec.arguments.parameters.1.value
-                        #- src: 
-                        #dependencyName: github-webhook-dep
-                        #dataKey: body.push.changes.2.name
-                        #dest: spec.arguments.parameters.2.value
+            - src:
+                dependencyName: github-webhook-dep
+                dataKey: body.repository.name
+                dest: spec.arguments.parameters.0.value
+            - src: 
+                dependencyName: github-webhook-dep
+                dataKey: body.push.changes.2.name
+                dest: spec.arguments.parameters.2.value
 
 
 
