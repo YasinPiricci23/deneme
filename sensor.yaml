@@ -28,7 +28,7 @@ spec:
                   - name: repo-url
                     value: my-repo-url
                   - name: branch
-                    value: "master"
+                    value: bar
                   - name: repo-short-commit
                     value: foo
                   - name: repo-name
