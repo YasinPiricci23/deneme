@@ -86,7 +86,7 @@ spec:
                     container:
                       image: sonarsource/sonar-scanner-cli:latest
                       command: [sh, -c]
-                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}}.git && cd deneme && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.project-name}}--{{inputs.parameters.branch}}--{{inputs.parameters.short-commit}} "]
+                      args: ["apk update && apk add git && git clone {{inputs.parameters.repo}} && cd deneme && sonar-scanner {{inputs.parameters.sonar-env}} -Dsonar.projectVersion={{inputs.parameters.project-name}}--{{inputs.parameters.branch}}--{{inputs.parameters.short-commit}} "]
 
           parameters:
             - src:
