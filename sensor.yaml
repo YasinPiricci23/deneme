@@ -99,7 +99,7 @@ spec:
               dest: spec.arguments.parameters.1.value
             - src: 
                 dependencyName: github-webhook-dep
-                dataTemplate: body.commits.0.id | trunc 7 
+                dataTemplate: '{{ index (.Input.body.commits.id) 0  | trunc 7 }}'
               dest: spec.arguments.parameters.2.value
             - src:
                 dependencyName: github-webhook-dep
